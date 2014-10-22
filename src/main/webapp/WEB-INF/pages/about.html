@@ -1,0 +1,59 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container">
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body">
+                            <div class ="page-header">
+                                <h3>О&nbsp;проекте</h3>
+                            </div>
+                            <div>
+                                <p class=""><span class="lead">Это учебный интернет-магазин. </span>Он&nbsp;работает совсем как настоящий, но&nbsp;товар можно купить только понарошку. Я&nbsp;написала его с&nbsp;целью получить новые знания и&nbsp;закрепить уже имеющиеся.</p>
+                                <p class=""><span class="lead">Этот магазин&nbsp;&mdash; особенный, </span>потому что он&nbsp;заботится о&nbsp;покупателе: когда вы&nbsp;выбираете какой-нибудь препарат, система предлагает вам аналог с&nbsp;тем&nbsp;же действующим веществом, но&nbsp;более дешёвый.</p>
+                                <br />
+                                <h3>Технологии, использованные в&nbsp;проекте</h3>
+                                <p class="">
+                                    <strong>Java:</strong> Spring MVC, Spring Security, Spring Data JPA, Hibernate ORM, Maven, JavaMail, log4j, JUnit, Mockito, EqualsVerifier, JaCoCo.<br />
+                                    <strong>UI:</strong> Thymeleaf, Twitter Bootstrap framework, TinyMCE.<br />
+                                    <strong>База данных:</strong> MySQL, H2.<br />
+                                    <strong>Инструменты:</strong> Git, облачный хостинг OpenShift от&nbsp;Red Hat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

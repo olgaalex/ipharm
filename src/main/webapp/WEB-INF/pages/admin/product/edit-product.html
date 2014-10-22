@@ -1,0 +1,190 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+
+        <!-- TinyMCE - web based Javascript HTML WYSIWYG editor -->
+        <script src="../../../../resources/js/tinymce/tinymce.min.js" th:src="@{/resources/js/tinymce/tinymce.min.js}"></script>
+        <script type="text/javascript">
+            tinymce.init({
+                language: "ru",
+                selector: "textarea",
+                browser_spellcheck: true,
+                plugins: ["advlist autoresize charmap contextmenu visualblocks anchor code link nonbreaking",
+                    "paste tabfocus visualchars hr lists preview searchreplace textpattern wordcount"]
+            });
+        </script>
+        <!-- /TinyMCE -->
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="page-header">
+                                <div th:replace="fragments/admin-helper-navbar :: admin-helper-navbar"></div>
+                                <h3>Редактировать товар</h3>
+                            </div>
+
+                            <div class="col-md-12">
+                                <form role="form" action="/admin/product/update-product" th:action="@{/admin/product/update-product}" enctype="multipart/form-data" th:object="${product}" method="post">
+                                    <div class="form-group row">
+                                        <label for="productName" class="col-sm-4 control-label">Название</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="productName" th:field="*{productName}"
+                                                   placeholder="Название" autofocus="autofocus" required="required" />
+                                            <input type="hidden" name="productId" th:field="*{productId}" th:value="${productId}"/>
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="productInternationalName" class="col-sm-4 control-label">Действующее вещество</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="productInternationalName" th:field="*{productInternationalName}" 
+                                                   placeholder="Действующее вещество" required="required" />
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('productInternationalName')}" th:errors="*{productInternationalName}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="storageOnHand" class="col-sm-4 control-label">Количество на складе</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" min="0" value="0" class="form-control" id="storageOnHand" th:field="*{storageOnHand}" 
+                                                   placeholder="Количество на складе" required="required" />
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('storageOnHand')}" th:errors="*{storageOnHand}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="annotation" class="col-sm-4 control-label">Описание</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" rows="6" id="annotation" th:field="*{annotation}" name="annotation"
+                                                      placeholder="Описание"></textarea>
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('annotation')}" th:errors="*{annotation}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="quantitativeComposition" class="col-sm-4 control-label">Количество в упаковке</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" min="1" value="1" class="form-control" id="quantitativeComposition" th:field="*{quantitativeComposition}"
+                                                   placeholder="Количество в упаковке" required="required" />
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('quantitativeComposition')}" th:errors="*{quantitativeComposition}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="price" class="col-sm-4 control-label">Цена</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" min="0.01" max="999999.99" step="0.01" value="0.01" class="form-control" id="price" th:field="*{price}"
+                                                   placeholder="Цена" required="required" />
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="dosage" class="col-sm-4 control-label">Дозировка</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="dosage" th:field="*{dosage}" placeholder="Дозировка" required="required" />
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('dosage')}" th:errors="*{dosage}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="image" class="col-sm-4 control-label">Фото</label>
+                                        <div class="col-sm-8">
+                                            <input name="image" type="file" accept="image/*,image/jpeg"  id="image"/>
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="pharmaceuticalForm" class="col-sm-4 control-label">Фармацевтическая форма</label>
+                                        <div class="col-sm-8">
+                                            <select id ="pharmaceuticalForm" th:remove="all-but-first"
+                                                    th:field="*{pharmaceuticalForm}" required="required">
+                                                <option th:each="pharmaceuticalForm : ${pharmaceuticalFormList}" 
+                                                        th:value="${pharmaceuticalForm.pharmaceuticalFormId}" 
+                                                        th:text="${pharmaceuticalForm.pharmaceuticalFormName}">Анальгетики</option>
+                                                <option>Жаропонижающие</option>
+                                                <option>Сердечно-сосудистая система</option>
+                                                <option>Антисептические и дезинфецирующие</option>
+                                            </select>
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('pharmaceuticalForm')}" th:errors="*{pharmaceuticalForm}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="producer" class="col-sm-4 control-label">Производитель</label>
+                                        <div class="col-sm-8">
+                                            <select id ="producer" th:remove="all-but-first"
+                                                    th:field="*{producer}" required="required">
+                                                <option th:each="producer : ${producerList}" 
+                                                        th:value="${producer.producerId}" 
+                                                        th:text="${producer.producerName}">Дарница</option>
+                                                <option>Материа Медика</option>
+                                                <option>GlaxoSmithKline Export</option>
+                                                <option>Lannacher Himittel</option>
+                                            </select>
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('producer')}" th:errors="*{producer}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="productSubgroup" class="col-sm-4 control-label">Подгруппа препарата</label>
+                                        <div class="col-sm-8">
+                                            <select id ="productSubgroup" th:remove="all-but-first"
+                                                    th:field="*{productSubgroup}" required="required">
+                                                <option th:each="productSubgroup : ${productSubgroupList}" 
+                                                        th:value="${productSubgroup.productSubgroupId}" 
+                                                        th:text="${productSubgroup.productSubgroupName}">Стимуляторы дыхания</option>
+                                                <option>От кашля</option>
+                                                <option>Улучшающие секрецию поджелудочной железы</option>
+                                                <option>Офтальмологические средства</option>
+                                            </select>
+                                            <p class="form-group text-danger" th:if="${#fields.hasErrors('productSubgroup')}" th:errors="*{productSubgroup}"></p>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-3 pull-right">
+                                            <a href="/admin/product/product-list" th:href="@{/admin/product/product-list}" class="navbar-btn btn-info btn">Отмена</a>
+                                            <input type="submit" class="navbar-btn btn-success btn" value="Сохранить" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.col-sm-12 -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col-sm-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

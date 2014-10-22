@@ -1,0 +1,27 @@
+body{
+    margin-bottom: 80px;
+}
+
+.page-header{
+    margin-top: 0;
+}
+
+.panel-body{
+    padding-top: 0;
+}
+
+.featuredImg{
+    margin-bottom: 15px;
+}
+
+.breadcrumb > li + li:before {
+    padding: 0 5px;
+    color: #cccccc;
+    content: "→\00a0" !important;
+}
+.breadcrumb > .before {
+    color: #999999;
+}
+.breadcrumb > .active {
+    color: #5bc0de;
+}

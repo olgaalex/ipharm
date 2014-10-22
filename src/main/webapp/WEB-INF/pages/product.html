@@ -1,0 +1,115 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body">
+                            <div class ="page-header">
+                                <h3>
+                                    <span th:text="${product.productName}">Аспирин</span>, <span th:text="${product.quantitativeComposition}">20</span> шт.
+                                    <small>Производитель: <span th:text="${product.producer.producerName}">Bayer</span></small>
+                                </h3>
+                            </div>
+
+                            <img th:if="${product.image} == null" src="../../resources/img/default_product_image.jpg" 
+                                 th:src="@{/resources/img/default_product_image.jpg}" width="25%" height="25%" alt="Аспирин" th:alt="${product.productName}" />
+                            <img th:unless="${product.image} == null" src="../../resources/img/default_product_image.jpg" 
+                                 th:src="@{|/images/product/${product.productId}|}" width="25%" height="25%" alt="Аспирин" th:alt="${product.productName}" />
+
+                            <div class="pull-right">
+                                <ul class="list-unstyled">
+                                    <li th:if="${product.storageOnHand > 0}" class="text-success">Есть в наличии</li>
+                                    <li th:unless="${product.storageOnHand > 0}" class="text-danger">Нет в наличии</li>
+                                    <li>&nbsp;</li>
+                                    <li>Действующее вещество: <span th:text="${product.productInternationalName}">acetylsalicylic acid</span></li>
+                                    <li>Цена: 
+                                        <span th:if="${product.storageOnHand > 0}" class="text-success" th:text="|${#numbers.formatDecimal(product.price,1,2,'COMMA')} грн.|">74,98 грн.</span>
+                                        <span th:unless="${product.storageOnHand > 0}" class="text-danger" th:text="|${#numbers.formatDecimal(product.price,1,2,'COMMA')} грн.|">74,98 грн.</span>
+                                    </li>
+                                </ul>
+                                <form role="form" action="#" th:action="@{/add-to-basket}" method="post">
+                                    <input type="hidden" name="productId" 
+                                           th:value="${product.productId}" />
+                                    <input type="submit" class="navbar-btn btn-info btn pull-right" 
+                                           name="submit" value="В корзину" />
+                                </form>
+                            </div> 
+                            <div>   
+                                <h4>О препарате</h4>
+                                <span th:utext="${product.annotation}">Вот так выглядит аннотация для аспирина, но это не окончательный результат. Вскоре все изменится и аннотация станет очень большой и длинной и с большим количеством умных слов.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.col-sm-9 -->
+
+
+                <div class ="col-sm-3">
+                    <div class="alert alert-success" role="alert" th:if="${#lists.isEmpty(analogList)}">
+                        Это самый дешёвый препарат из всех аналогичных
+                    </div>
+                    <h4 th:if="${not #lists.isEmpty(analogList)}">Дешёвые аналоги:</h4>
+                    <ul class="list-group list-unstyled">
+                        <li th:each="analogItem : ${analogList}"> 
+                            <a href="#" th:href="@{product(productId=${analogItem.productId})}" class="list-group-item">
+                                <h5 class="list-group-item-heading">
+                                    <strong>
+                                        <span th:text="${analogItem.productName}">Ацетилсалициловая кислота</span>, <span th:text="${analogItem.quantitativeComposition}">10</span> шт.
+                                    </strong>
+                                </h5>
+
+                                <img th:if="${analogItem.image} == null" src="../../resources/img/default_product_image_small.png" 
+                                     th:src="@{/resources/img/default_product_image_small.png}" width="70" height="70" alt="Аспирин" th:alt="${analogItem.productName}" />
+                                <img th:unless="${analogItem.image} == null" src="../../resources/img/default_product_image_small.png" 
+                                     th:src="@{|/images/product/${analogItem.productId}|}" width="70" height="70" alt="Аспирин" th:alt="${analogItem.productName}" />
+
+                                <ul class="list-unstyled">
+                                    <li th:if="${analogItem.storageOnHand > 0}" class="text-success">Есть в наличии</li>
+                                    <li th:unless="${analogItem.storageOnHand > 0}" class="text-danger">Нет в наличии</li>
+                                    <li>&nbsp;</li>
+                                    <li>Действующее вещество: <span th:text="${analogItem.productInternationalName}">acetylsalicylic acid</span></li>
+                                    <li>Цена: 
+                                        <span th:if="${analogItem.storageOnHand > 0}" class="text-success" th:text="|${#numbers.formatDecimal(analogItem.price,1,2,'COMMA')} грн.|">74,98 грн.</span>
+                                        <span th:unless="${analogItem.storageOnHand > 0}" class="text-danger" th:text="|${#numbers.formatDecimal(analogItem.price,1,2,'COMMA')} грн.|">74,98 грн.</span>
+                                    </li>
+                                    <li class="pull-right">Подробнее...</li>
+                                    <li>&nbsp;</li>
+                                </ul>
+                            </a> 
+                        </li>
+                    </ul>
+                </div><!-- /.col-sm-3 -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

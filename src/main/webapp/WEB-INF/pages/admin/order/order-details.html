@@ -1,0 +1,112 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/bootstrap-theme.css" th:href="@{/resources/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container-fluid"> 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="page-header">
+                                <div th:replace="fragments/admin-helper-navbar :: admin-helper-navbar"></div>
+                                <h3><span th:text="|Заказ №${order.orderId} на сумму ${#numbers.formatDecimal(@basketSessionScopedBean.getTotalSumOfOrder(order),1,2,'COMMA')} грн.|">Заказ №34 на сумму 510,12 грн.</span></h3>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Название товара</th>
+                                                <th>Количество</th>
+                                                <th>Цена единицы</th>
+                                                <th>Общая стоимость</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody th:remove="all-but-first">
+                                            <tr th:each="orderItem : ${order.orderItemList}">
+                                                <td th:text="${orderItem.product.productName}">Противовоспалин</td>
+                                                <td >
+                                                    <form role="form" action="#" th:action="@{/admin/order/update-order-item-quantity}" method="post">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input type="hidden" id="productId" name="orderItemId" th:value="${orderItem.orderItemId}" />
+                                                                    <input type="hidden" id="orderId" name="orderId" th:value="${order.orderId}" />
+                                                                    <input class="form-control" type="number" min="1" max="1000" step="1" id="quantity" name="quantity"
+                                                                           th:value="${orderItem.productQuantity}" required="required" />
+                                                                    <span class="input-group-btn">
+                                                                        <input class="btn btn-info" type="submit" value="Обновить" />
+                                                                    </span>
+                                                                </div><!-- /input-group -->
+                                                            </div><!-- /.col-sm-6 -->
+                                                        </div><!-- /.row -->
+                                                    </form>
+                                                </td>
+                                                <td th:text="${#numbers.formatDecimal(orderItem.productPrice,1,2,'COMMA')}">33.50</td>
+                                                <td th:text="${#numbers.formatDecimal(@basketSessionScopedBean.getOrderItemSum(orderItem),1,2,'COMMA')}">33.50</td>
+                                                <td>
+                                                    <a href="#" th:href="@{/admin/order/remove-order-item(orderId=${order.orderId},orderItemIdToRemove=${orderItem.orderItemId})}"
+                                                       onclick="return confirm('Удалить товар из заказа?')"
+                                                       class="navbar-btn btn-danger btn pull-right">Удалить</a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Ещеодинпрепарат</td>
+                                                <td>10</td>
+                                                <td>10</td>
+                                                <td>100</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Никотинамиддезоксирибонуклеин</td>
+                                                <td>5</td>
+                                                <td>5</td>
+                                                <td>25</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="pager">
+                                    <a href="admin/order/order-list.html" th:href="@{/admin/order/order-list}">К списку заказов</a>
+                                </div>
+                            </div> <!-- /.col-md-12 -->
+                        </div> <!-- /.panel-body -->
+                    </div> <!-- /.panel panel-default -->
+                </div> <!-- /.col-md-12 -->
+            </div> <!-- /.row -->
+        </div> <!-- /.container-fluid -->
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>
+

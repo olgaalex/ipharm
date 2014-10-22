@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head>
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation" th:fragment="navbar">
+            <div class="container-fluid">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <a href="../index.html" th:href="@{/index}" title="На главную страницу">Internet Pharmacy</a>
+                    </div>
+
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div><!-- /.navbar-header -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../about.html" th:href="@{/about}" title="О&nbsp;проекте">О&nbsp;проекте</a></li>	
+                        <li><a href="../shipping-and-payment.html" th:href="@{/shipping-and-payment}" title="Доставка и&nbsp;оплата">Доставка и&nbsp;оплата</a></li>	
+                        <li><a href="#contact" th:href="@{#contact}" data-toggle="modal" title="Обратная связь">Обратная связь</a></li>	
+                        <li th:if="${@basketSessionScopedBean.order} != null"><a href="../basket.html" th:href="@{/show-basket}">Корзина <span class="badge" th:text="${@basketSessionScopedBean.order.orderItemList.size()}">3</span></a></li>
+                        <li sec:authorize="!isAuthenticated()"><a href="login.html" th:href="@{/user/index}" title="Вход">Вход</a></li>
+                        <li sec:authorize="hasRole('ROLE_USER')"><a href="#" th:href="@{/user/index}" sec:authentication="name" title="В личный кабинет" /></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/index}" sec:authentication="name" title="В админпанель" /></li>
+                        <li sec:authorize="isAuthenticated()"><a href="../index.html" th:href="@{/logout}" title="Выход">Выход</a></li>
+                    </ul>
+
+                    <form role="form" class="navbar-form text-center" action="#" th:action="@{/find-product}" method="get">
+                        <input type="search" value="" name="productName" placeholder="Название препарата" class="form-control" maxlength="200" size="20" />
+                        <input type="submit" class="btn btn-info form-control" value="Найти" />
+                    </form>
+                </div><!--/.navbar-collapse -->
+            </div><!-- /.container -->
+        </div>
+
+    </body>
+</html>

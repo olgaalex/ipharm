@@ -1,0 +1,245 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar">
+            <div class="container-fluid">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <a href="../index.html" th:href="@{/index}" title="На главную страницу">Internet Pharmacy</a>
+                    </div>
+
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div><!-- /.navbar-header -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../about.html" th:href="@{/about}" title="О&nbsp;проекте">О&nbsp;проекте</a></li>	
+                        <li><a href="../shipping-and-payment.html" th:href="@{/shipping-and-payment}" title="Доставка и&nbsp;оплата">Доставка и&nbsp;оплата</a></li>	
+                        <li><a href="#contact" th:href="@{#contact}" data-toggle="modal" title="Обратная связь">Обратная связь</a></li>	
+                        <li th:if="${@basketSessionScopedBean.order} != null"><a href="../basket.html" th:href="@{/show-basket}">Корзина <span class="badge" th:text="${@basketSessionScopedBean.order.orderItemList.size()}">3</span></a></li>
+                        <li sec:authorize="!isAuthenticated()"><a href="login.html" th:href="@{/user/index}" title="Вход">Вход</a></li>
+                        <li sec:authorize="hasRole('ROLE_USER')"><a href="#" th:href="@{/user/index}" sec:authentication="name" title="В личный кабинет" /></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/index}" sec:authentication="name" title="В админпанель" /></li>
+                        <li sec:authorize="isAuthenticated()"><a href="../index.html" th:href="@{/logout}" title="Выход">Выход</a></li>
+                    </ul>
+
+                    <form role="form" class="navbar-form text-center" action="#" th:action="@{/find-product}" method="get">
+                        <input type="search" value="" name="productName" placeholder="Название препарата" class="form-control" maxlength="200" size="20" />
+                        <input type="submit" class="btn btn-info form-control" value="Найти" />
+                    </form>
+                </div><!--/.navbar-collapse -->
+            </div><!-- /.container -->
+        </div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container">
+
+            <div class="row alert alert-success" role="alert">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <p class="">
+                        <span class="lead">Это учебный интернет-магазин. </span>Он&nbsp;работает совсем как настоящий, но&nbsp;товар можно купить только понарошку. 
+                        Я&nbsp;написала его с&nbsp;целью получить новые знания и&nbsp;закрепить уже имеющиеся.</p>
+                    <p class="">
+                        <span class="lead">Этот магазин&nbsp;&mdash; особенный, </span>потому что он&nbsp;заботится о&nbsp;покупателе: когда вы&nbsp;выбираете какой-нибудь препарат, система предлагает вам аналог с&nbsp;тем&nbsp;же действующим веществом, но&nbsp;более дешёвый.
+                    </p>
+                    <p class="">
+                        <span class="lead">Список использованных технологий </span>вы&nbsp;можете увидеть на&nbsp;странице <a href="about.html" th:href="@{/about}" class="alert-link" title="О&nbsp;проекте">О&nbsp;проекте</a>.
+                    </p>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">&nbsp;</div>
+            </div>
+
+            <div class="row" th:remove="all-but-first">
+                <div class="col-md-3" th:each="groupName : ${productGroupAndSubgroupMap.keySet()}">
+                    <h3 th:text="${groupName}">Анальгетики</h3>
+                    <ul>
+                        <li th:each="subgroup : ${productGroupAndSubgroupMap.get(groupName)}">
+                            <a href="#" th:href="@{/product-list(productSubgroupId=${subgroup.productSubgroupId})}" th:text="${subgroup.productSubgroupName}">Противовоспалительные</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Антибиотики</h3>
+                    <ul>
+                        <li><a href="#">Аминогликозиды</a></li>
+                        <li><a href="#">Макролины и азалиды</a></li>
+                        <li><a href="#">Пеницилины</a></li>
+                        <li><a href="#">Тетрациклины</a></li>
+                        <li><a href="#">Фторхинолины</a></li>
+                        <li><a href="#">Хлорамфениколы</a></li>
+                        <li><a href="#">Цефалоспорины</a></li>
+                        <li><a href="#">Широкого спектра</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Иммунотропные</h3>
+                    <ul>
+                        <li><a href="#">Иммуномодуляторы</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Мочеполовая система</h3>
+                    <ul>
+                        <li><a href="#">Влияющие на тонус и сокращения матки</a></li>
+                        <li><a href="#">Мочегонные</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Органы дыхания</h3>
+                    <ul>
+                        <li><a href="#">Бронхолитики</a></li>
+                        <li><a href="#">От кашля</a></li>
+                        <li><a href="#">Отхаркивающие</a></li>
+                        <li><a href="#">Стимуляторы дыхания</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Пищеварительная система</h3>
+                    <ul>
+                        <li><a href="#">Влияющие на аппетит</a></li>
+                        <li><a href="#">Влияющие на деятельность желчного пузыря</a></li>
+                        <li><a href="#">Влияющие на моторику ЖКТ</a></li>
+                        <li><a href="#">Гепатотропные и гепатопротекторы</a></li>
+                        <li><a href="#">Рвотные и противорвотные</a></li>
+                        <li><a href="#">Улучшающие секрецию желудка</a></li>
+                        <li><a href="#">Улучшающие секрецию поджелудочной железы</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Противовирусные</h3>
+                    <ul>
+                        <li><a href="#">Противогерпетичные</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Прочие</h3>
+                    <ul>
+                        <li><a href="#">Офтальмологические средства</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Сердечно-сосудистая система</h3>
+                    <ul>
+                        <li><a href="#">Антиангинальные</a></li>
+                        <li><a href="#">Антигипертензивные</a></li>
+                        <li><a href="#">Кардиотонические </a></li>
+                        <li><a href="#">Противоаритмические</a></li>
+                        <li><a href="#">Регуляторы потенции</a></li>
+                    </ul>        
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Система крови</h3>
+                    <ul>
+                        <li><a href="#">Антикоагулянты</a></li>
+                        <li><a href="#">Коагулянты</a></li>
+                    </ul>        
+                </div>
+
+            </div><!-- /row -->
+
+        </div><!-- /Content -->
+
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer">
+            <div class="container">
+                <p class="navbar-text pull-left">
+                    &copy; 2013&ndash;<span th:text="${#calendars.year(#calendars.createNow())}">2014</span> Gorbatiuk
+                    &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="admin/index.html" th:href="@{/admin/index}">Админпанель</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="user/index.html" th:href="@{/user/index}">Кабинет пользователя</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="error.html" th:href="@{/simulateError}">Страница ошибки</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form role="form" class="form-horizontal" action="#" th:action="@{/send-email}" method="post">
+                        <div class="modal-header">
+                            <h4>Обратная связь</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="user-name" class="col-sm-2 control-label">Ваше имя:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="user-name" placeholder="ФИО" name="userName" value="" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user-email" class="col-sm-2 control-label">Ваш email:</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="user-email" placeholder="you@example.com" name="userEmail" value=""/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject" class="col-sm-2 control-label">Тема письма:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="subject" placeholder="Тема письма" name="subject" value=""/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message" class="col-sm-2 control-label">Текст письма:</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="8" id="message" name="message"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-default" data-dismiss="modal">Закрыть</a>
+                            <button class="btn btn-primary" type="submit">Отправить</button>
+                        </div>
+                    </form>
+                </div><!-- /modal-content -->
+            </div><!-- /modal-dialog -->
+        </div><!-- /Modal pop-up contact form -->
+
+    </body>
+</html>

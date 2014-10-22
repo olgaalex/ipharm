@@ -1,0 +1,68 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head>
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </head>
+
+    <body>
+
+        <div class="row" th:fragment="admin-helper-navbar">
+            <ul class="nav nav-tabs" role="tablist" th:with="requestUri=${#httpServletRequest.getRequestURI()}">
+                <li th:class="'dropdown' + (${#strings.startsWith(requestUri,'/admin/product/')}? ' active' : '')">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Товары <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="product/product-list.html" th:href="@{/admin/product/product-list}">Все</a></li>
+                        <li><a href="product/add-product.html" th:href="@{/admin/product/add-product}">Добавить</a></li>
+                    </ul>
+                </li>
+
+                <li th:class="${#strings.startsWith(requestUri,'/admin/user')}? 'active'">
+                    <a href="user/user-list.html" th:href="@{/admin/user/user-list}">Пользователи</a>
+                </li>
+
+                <li th:class="${#strings.startsWith(requestUri,'/admin/order')}? 'active'">
+                    <a href="order/order-list.html" th:href="@{/admin/order/order-list}">Заказы</a>
+                </li>
+
+                <li th:class="'dropdown' + (${#strings.startsWith(requestUri,'/admin/product-group')}? ' active' : '')">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Группы <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="product-group/product-group-list.html" th:href="@{/admin/product-group/product-group-list}">Все</a></li>
+                        <li><a href="product-group/add-product-group.html" th:href="@{/admin/product-group/add-product-group}">Добавить</a></li>
+                    </ul>
+                </li>
+
+                <li th:class="'dropdown' + (${#strings.startsWith(requestUri,'/admin/product-subgroup')}? ' active' : '')">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Подгруппы <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="product-subgroup/product-subgroup-list.html" th:href="@{/admin/product-subgroup/product-subgroup-list}">Все</a></li>
+                        <li><a href="product-subgroup/add-product-subgroup.html" th:href="@{/admin/product-subgroup/add-product-subgroup}">Добавить</a></li>
+                    </ul>
+                </li>
+
+                <li th:class="'dropdown' + (${#strings.startsWith(requestUri,'/admin/producer')}? ' active' : '')">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Производители <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="producer/producer-list.html" th:href="@{/admin/producer/producer-list}">Все</a></li>
+                        <li><a href="producer/add-producer.html" th:href="@{/admin/producer/add-producer}">Добавить</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </body>
+</html>

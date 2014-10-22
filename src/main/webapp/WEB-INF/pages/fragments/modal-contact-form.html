@@ -1,0 +1,65 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head>
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+
+        <div class="modal fade" id="contact" role="dialog" th:fragment="modal-contact-form">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form role="form" class="form-horizontal" action="#" th:action="@{/send-email}" method="post">
+                        <div class="modal-header">
+                            <h4>Обратная связь</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="senderName" class="col-sm-2 control-label">Ваше имя:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="senderName" autofocus="autofocus" placeholder="ФИО" name="senderName" value="" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="senderEmail" class="col-sm-2 control-label">Ваш email:</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="senderEmail" placeholder="you@example.com" name="senderEmail" value="" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject" class="col-sm-2 control-label">Тема письма:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="subject" placeholder="Тема письма" name="subject" value="" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message" class="col-sm-2 control-label">Текст письма:</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="8" id="message" name="message" required="required" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-default" data-dismiss="modal">Закрыть</a>
+                            <button class="btn btn-primary" type="submit">Отправить</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head>
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-bottom " th:fragment="footer"> 
+            <div class="container">
+                <p class="navbar-text pull-left">
+                    &copy; 2013&ndash;<span th:text="${#calendars.year(#calendars.createNow())}">2014</span> Olga
+                    &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="admin/index.html" th:href="@{/admin/index}">Админпанель</a>
+                </p>
+            </div>
+        </div>
+
+    </body>
+</html>

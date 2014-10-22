@@ -1,0 +1,53 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body">
+                            <div class ="page-header">
+                                <div th:replace="fragments/admin-helper-navbar :: admin-helper-navbar"></div>
+                                <h3>
+                                    Новый производитель успешно добавлен!
+                                </h3>
+                            </div>
+
+                            <div class="col-md-12">
+                                <a href="producer-list.html" th:action="@{/admin/producer/producer-list}">К списку производителей</a>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <a href="add-producer.html" th:href="@{/admin/producer/add-producer}">Добавить ещё</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </div>	
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

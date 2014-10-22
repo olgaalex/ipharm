@@ -1,0 +1,99 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Adminpanel — Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container">
+            <h1>Админпанель</h1>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body"><h2>Товары</h2>
+                            <p>&nbsp;&nbsp;&nbsp;
+                                <a href="product/product-list.html" th:href="@{/admin/product/product-list}">Все</a>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <a href="product/add-product.html" th:href="@{/admin/product/add-product}">Добавить</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body"><h2>Пользователи</h2>
+                            <p>&nbsp;&nbsp;&nbsp;
+                                <a href="user/user-list.html" th:href="@{/admin/user/user-list}">Все</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body"><h2>Заказы</h2>
+                            <p>&nbsp;&nbsp;&nbsp;
+                                <a href="order/order-list.html" th:href="@{/admin/order/order-list}">Все</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body"><h2>Группы товаров</h2>
+                            <p>&nbsp;&nbsp;&nbsp;
+                                <a href="product-group/product-group-list.html" th:href="@{/admin/product-group/product-group-list}">Все</a>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <a href="product-group/add-product-group.html" th:href="@{/admin/product-group/add-product-group}">Добавить</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body"><h2>Подгруппы товаров</h2>
+                            <p>&nbsp;&nbsp;&nbsp;
+                                <a href="product-subgroup/product-subgroup-list.html" th:href="@{/admin/product-subgroup/product-subgroup-list}">Все</a>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <a href="product-subgroup/add-product-subgroup.html" th:href="@{/admin/product-subgroup/add-product-subgroup}">Добавить</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body"><h2>Производители</h2>
+                            <p>&nbsp;&nbsp;&nbsp;
+                                <a href="producer/producer-list.html" th:href="@{/admin/producer/producer-list}">Все</a>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <a href="producer/add-producer.html" th:href="@{/admin/producer/add-producer}">Добавить</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /Content -->
+
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

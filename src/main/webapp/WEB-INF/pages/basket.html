@@ -1,0 +1,98 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container">
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body">
+                            <div class ="page-header">
+                                <h3 th:with="itemsQuantity=${@basketSessionScopedBean.order.orderItemList.size()}" th:switch="true">В корзине содержится
+                                    <span th:text="${itemsQuantity}">12</span>
+                                    <span th:case="${itemsQuantity} == 11">продуктов</span>
+                                    <span th:case="${itemsQuantity} == 12">продуктов</span>
+                                    <span th:case="${itemsQuantity} == 13">продуктов</span>
+                                    <span th:case="${itemsQuantity} == 14">продуктов</span>
+                                    <span th:case="${itemsQuantity} % 10 == 0">продуктов</span>
+                                    <span th:case="${itemsQuantity} % 10 == 1">продукт</span>
+                                    <span th:case="(${itemsQuantity} % 10) &lt; 5">продукта</span>
+                                    <span th:case="*" th:text="продуктов" />
+                                </h3>
+                            </div>
+
+                            <table class="table table-bordered table table-hover">
+                                <caption>
+                                    <p class="pull-right">Общая стоимость заказа: <span th:text="${#numbers.formatDecimal(@basketSessionScopedBean.getTotalSumOfOrder(),1,2,'COMMA')}">100500</span> грн.</p>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th>Продукт</th>
+                                        <th>Цена</th>
+                                        <th>Количество</th>
+                                        <th colspan="2">Общая стоимость</th>
+                                    </tr>
+                                </thead>
+                                <tbody th:remove="all-but-first">
+                                    <tr th:each="orderItem : ${@basketSessionScopedBean.order.orderItemList}">
+                                        <td th:text="${orderItem.product.productName}">Аспирин</td>
+                                        <td><span th:text="${#numbers.formatDecimal(orderItem.productPrice,1,2,'COMMA')}">74,98</span> грн.</td>
+                                        <td>
+                                            <form role="form" action="#" th:action="@{/update-quantity}" method="post">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <input type="hidden" id="productId" name="productId" th:value="${orderItem.product.productId}" />
+                                                            <input class="form-control" type="number" min="1" step="1" max="1000" id="quantity" name="quantity"
+                                                                   th:value="${orderItem.productQuantity}" required="required" />
+                                                            <span class="input-group-btn">
+                                                                <input class="btn btn-info" type="submit" name="submit" value="Обновить" />
+                                                            </span>
+                                                        </div><!-- /input-group -->
+                                                    </div><!-- /.col-sm-6 -->
+                                                </div><!-- /.row -->
+                                            </form>
+                                        </td>
+                                        <td><span th:text="${#numbers.formatDecimal(@basketSessionScopedBean.getOrderItemSum(orderItem),1,2,'COMMA')}">74,98</span> грн.</td>
+                                        <td><a href="#" th:href="@{/remove-from-basket(productIdToRemove=${orderItem.product.productId})}"
+                                               class="navbar-btn btn-info btn pull-right">Удалить</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a href="/index" class="navbar-btn btn-info btn pull-left">Продолжить покупки</a>
+                            <a href="/user/shipping-method" class="navbar-btn btn-info btn pull-right">Оформить заказ</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

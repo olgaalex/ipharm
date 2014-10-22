@@ -1,0 +1,18 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title th:remove="all">Шаблон для письма обратной связи от пользователя</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+
+    <body>
+        <h3>Здравствуйте, Ольга!</h3>
+        <p>Некто <span th:text="${senderName}">Иван</span> отправил Вам через форму обратной связи на сайте 'Internet Pharmacy' следующее сообщение:</p>
+        <p th:text="${message}">Йа сообщение</p>
+        <br />
+    </body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/bootstrap-theme.css" th:href="@{/resources/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container-fluid"> 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body">
+                            <div class ="page-header">
+                                <div th:replace="fragments/admin-helper-navbar :: admin-helper-navbar"></div>
+                                <h3><span th:text="|Все заказы пользователя ${customer.firstName} ${customer.lastName}|"></span></h3>
+                            </div>
+
+                            <div class="col-md-12">
+                                <span class="lead" th:if="${#lists.isEmpty(orderList)}"> Этот пользователь еще ничего не заказывал.</span>
+
+                                <div class="table-responsive" th:if="${not #lists.isEmpty(orderList)}">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Дата</th>
+                                                <th>Номер заказа</th>
+                                                <th>Метод оплаты</th>
+                                                <th>Метод доставки</th>
+                                                <th>Примечание</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody th:remove="all-but-first">
+                                            <tr th:each="order : ${orderList}">
+                                                <td th:text="${#dates.format(order.orderDate, 'dd.MM.yyyy, HH:mm')}">08.08.2014</td>
+                                                <td th:text="${order.orderId}">33</td>
+                                                <td th:text="${order.paymentMethod.name}">Самоввоз</td>
+                                                <td th:text="${order.shippingMethod.name}">Ногами</td>
+                                                <td th:text="${order.comment}">Я рад, что сделал этот заказ.</td>
+                                                <td>
+                                                    <div class="btn pull-right">
+                                                        <a href="admin/user/user-order-details.html" 
+                                                           th:href="@{/admin/user/user-order-details(orderId=${order.orderId})}" 
+                                                           class="navbar-btn btn-success btn">Подробнее</a> 
+                                                        <a href="#" th:href="@{/admin/user/remove-user-order(userIdToGetOrderList=${customer.customerId},orderIdToRemove=${order.orderId})}"
+                                                           onclick="return confirm('Удалить заказ?')"
+                                                           class="navbar-btn btn-danger btn">Удалить</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>09.09.2013</td>
+                                                <td>001</td>
+                                                <td>Pay Pal</td>
+                                                <td>Пароходом</td>
+                                                <td>Доставьте как можно скорее - вирус Эбола не дремлет!</td>
+                                                <td>
+                                                    <div class="btn">
+                                                        <a href="#" class="navbar-btn btn-success btn">Подробнее</a> 
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- .table-responsive -->
+                                <br/>
+                                <div class ="pager">
+                                    <a href="admin/user/user-list.html" th:href="@{/admin/user/user-list}">К списку пользователей</a>
+                                </div>
+                            </div> <!-- /.col-md-12 -->
+                        </div> <!-- /.panel-body -->
+                    </div> <!-- /.panel panel-default -->
+                </div> <!-- /.col-md-12 -->
+            </div> <!-- /.row -->
+        </div> <!-- /.container-fluid -->
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

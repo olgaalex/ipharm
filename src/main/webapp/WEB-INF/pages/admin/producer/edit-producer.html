@@ -1,0 +1,83 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class ="panel panel-default">
+                        <div class ="panel-body">
+                            <div class ="page-header">
+                                <div th:replace="fragments/admin-helper-navbar :: admin-helper-navbar"></div>
+                                <h3>Редактировать производителя</h3>
+                            </div>
+                            <form role="form" action="/admin/producer/update-producer" th:action="@{/admin/producer/update-producer}" th:object="${producer}" method="post">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="producerName" class="col-md-2 control-label">Название</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="producerName" th:field="*{producerName}" autofocus="autofocus" required="required" th:placeholder="${producerName}"/>
+                                                <input type="hidden" name="producerId" th:field="*{producerId}" th:value="producerId"/>
+                                                <p class="form-group text-danger" th:if="${#fields.hasErrors('producerName')}" th:errors="*{producerName}">
+                                                    Введите не менее 3 и не более 60 символов.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="producerAddress" class="col-md-2 control-label">Адрес</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="producerAddress" th:field="*{producerAddress}" required="required" th:placeholder="${producerAddress}"/>
+                                                <p class="form-group text-danger" th:if="${#fields.hasErrors('producerAddress')}" th:errors="*{producerAddress}">
+                                                    Введите не менее 3 и не более 60 символов.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-3 pull-right">
+                                        <a href="/admin/producer/producer-list" th:href="@{/admin/producer/producer-list}" class="navbar-btn btn-info btn">Отмена</a>
+                                        <input type="submit" class="navbar-btn btn-success btn" value="Сохранить" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </div>	
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>

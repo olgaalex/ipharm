@@ -1,0 +1,72 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="fragments/head-tag :: head-tag">
+        <title>Internet Pharmacy</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="../../resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css" media="all" />
+        <link href="../../resources/css/ipharm_styles.css" th:href="@{/resources/css/ipharm_styles.css}" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body>
+        <div th:replace="fragments/yandex-metrika :: yandex-metrika"></div>
+
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-static-top" th:replace="fragments/navbar :: navbar"></div><!-- /Navbar -->
+
+        <!-- Content -->
+        <div class="container"> 
+
+            <div class="row" th:remove="all-but-first"> 
+                <div class="col-md-3" th:each="firstCharOfProductName : ${productAlphabeticSortedMap.keySet()}"> 
+                    <h3 th:text="${firstCharOfProductName}">А</h3>
+                    <ul>
+                        <li th:each="product : ${productAlphabeticSortedMap.get(firstCharOfProductName)}">
+                            <a href="#" th:href="@{/product(productId=${product.productId})}" th:text="${product.productName}">Аспирин</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Б</h3>
+                    <ul>
+                        <li><a href="#">Баралгин</a></li>
+                        <li><a href="#">Бетаметазон</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>В</h3>
+                    <ul>
+                        <li><a href="#">Валидол</a></li>
+                        <li><a href="#">Валокордин</a></li>
+                        <li><a href="#">Виагра</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3"> 
+                    <h3>Г</h3>
+                    <ul>
+                        <li><a href="#">Галоперидол</a></li>
+                        <li><a href="#">Глюкоза</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="navbar navbar-default navbar-fixed-bottom" th:replace="fragments/footer :: footer"></div>
+
+        <!-- Modal pop-up contact form -->
+        <div class="modal fade" id="contact" role="dialog" th:replace="fragments/modal-contact-form :: modal-contact-form"></div><!-- /Modal pop-up login form -->
+
+    </body>
+</html>
